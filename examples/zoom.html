@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaflet.LayerGroup.Conditional example: Zoom</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+        <style lang="css">
+            #mapid { height: 700px; }
+        </style>
+    </head>
+    <body>
+        <h1>Leaflet.LayerGroup.Conditional example: Zoom</h1>
+        <h3>Try zooming in and out on the map</h3>
+        <div id="mapid"></div>
+
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=""></script>
+        <script src="../leaflet.layergroup.conditional.js"></script>
+        <script lang="javascript">
+            // Set up the base map
+            const mymap = L.map('mapid').setView([53.505, 8.00], 4);
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            maxZoom: 18,
+                            id: 'mapbox/streets-v11',
+                            tileSize: 512,
+                            zoomOffset: -1,
+                            accessToken: 'pk.eyJ1IjoiZWxoYWFyZCIsImEiOiJja242a2U1YjMwZjByMnVzNjJubjJicjM4In0.GOcNq2uG0j94rDw3EX0uOw'
+                        }).addTo(mymap);
+
+            // Some city centers
+            const centers = [[53.5503410, 10.0006540],
+                           [52.5170365, 13.3888599],
+                           [55.6867243, 12.5700724],
+                           [51.51557, -0.09209],
+                           [52.3636, 4.8994],
+                           [50.84675, 4.35283],
+                          ];
+            
+            // Make a Layer with markers scattered randomly around each city center
+            const scatterMarkers = function(coords, spread) {
+                const count = Math.floor(Math.random() * 7) + 5;
+                const res = [];
+                for (let i = 0; i < count; i++) {
+                    let myCoords = coords.map( (c) => c + (Math.random() - 0.5) * spread);
+                    res.push(L.marker(myCoords));
+                }
+                return res;
+            }
+            const layer1 = L.layerGroup(centers.map((coords) => scatterMarkers(coords, 0.2)).reduce((a, b) => a.concat(b), []));
+
+            // Make a Layer with red circles around each city center
+            const circleOptions = {
+                color: 'red',
+                fillColor: '#f03',
+                fillOpacity: 0.5,
+                radius: 20000
+            };
+            const layer2 = L.layerGroup(centers.map((coords) => L.circle(coords, circleOptions)));
+
+            // Make a layer with green triangles joining groups of cities
+            const polyOptions = {
+                color: "green",
+                weight: 1,
+            };
+            const layer3 = L.layerGroup([
+                L.polygon(centers.slice(0,3), polyOptions),
+                L.polygon(centers.slice(3), polyOptions),
+            ]);
+
+
+            // Make a conditional layergroup and add it to the map
+            const layerGroup = L.layerGroup.conditional();
+            
+            // Add each of the three layers to the group with separate conditions. Then add the group to the map.
+            layerGroup.addConditionalLayer((level) => level > 8, layer1)
+                      .addConditionalLayer((level) => level >= 6 && level <= 10, layer2)
+                      .addConditionalLayer((level) => level <= 6, layer3)
+                      .addTo(mymap);
+
+            
+            // Update the conditional layers when the user zooms
+            const zoomHandler = function(event) {
+                const zoomLevel = mymap.getZoom();
+                layerGroup.updateConditionalLayers(zoomLevel);
+             };
+            mymap.on('zoomend', zoomHandler);
+
+
+            // Set the initial state of the conditional layers.
+            // In this case, that is easiest done by calling the zoom handler once.
+            zoomHandler();
+        </script>
+    </body>
+</html>
