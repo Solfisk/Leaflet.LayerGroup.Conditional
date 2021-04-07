@@ -10,7 +10,7 @@ Should work with Leaflet ^1.0.0.
 Has only been tested with Leaflet ^1.7.1
 
 ## Demos
-* [Conditions on zoom level](examples/zoom.html)
+* [Different layers depending on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/zoom.html)
 
 
 ## Usage
