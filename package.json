@@ -4,10 +4,11 @@
     "description": "An extension af Leaflet.LayerGroup with conditional layers.",
     "keywords": ["leaflet", "layergroup", "conditional"],
     "repository": "github:Solfisk/Leaflet.LayerGroup.Conditional",
+    "homepage": "https://solfisk.github.io/Leaflet.LayerGroup.Conditional",
     "main": "Leaflet.LayerGroup.Conditional.js",
     "author": "Jørgen Elgaard Larsen <jel@solfisk.dk>",
     "license": "GPL-3.0-or-later",
     "peerDependencies": {
       "leaflet": "^1.0.0"
     }
-  }
+}

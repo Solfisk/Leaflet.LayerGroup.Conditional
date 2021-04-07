@@ -53,6 +53,36 @@ Has only been tested with Leaflet ^1.7.1
 
 ```
 
+### Installing the sub-plugin
+
+#### Local copy
+
+1. Download the [`leaflet.layergroup.conditional.js`](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/leaflet.layergroup.conditional.js) file from the latest release.
+2. Place the file alongside your page.
+3. Add the `script` tag to your page after Leaflet script.
+
+#### CDN
+
+You can alternatively use the free [unpkg](https://unpkg.com) CDN service:
+
+```html
+<!-- After Leaflet script -->
+<script src="https://unpkg.com/leaflet.leayergroup.conditional@1.0.0/dist/leaflet.layergroup.conditional.js"></script>
+```
+
+#### npm
+
+1. Add this package to your project:
+
+   ```bash
+   npm install leaflet-layergroup-conditional --save
+   ```
+
+2. Add `script` tag to your page after Leaflet script:
+   ```html
+   <!-- After Leaflet script -->
+   <script src="node_modules/leaflet-layergroup-conditional/leaflet.layergroup.conditional.js"></script>
+   ```
 
 ## API Reference
 
@@ -83,4 +113,4 @@ Methods are the same as those of [LayerGroup](http://leafletjs.com/reference.htm
 
 ## License
 
-GPL.
+[GNU GPLv3](https://www.gnu.org/licenses/gpl-3.0-standalone.html) or later
