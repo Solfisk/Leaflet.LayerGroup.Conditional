@@ -1,0 +1,25 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+pre, code {
+    background-color: #f8f8f8;
+}
+
+.inner {
+    max-width: 800px;
+}
+
+  
+@media screen and (max-width: 480px) {
+    .inner {
+        max-width: 480px;
+    }
+}
+  
+@media screen and (max-width: 320px) {
+    .inner {
+      max-width: 320px;
+    }
+}
