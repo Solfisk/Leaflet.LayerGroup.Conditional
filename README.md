@@ -61,15 +61,6 @@ Has only been tested with Leaflet ^1.7.1
 2. Place the file alongside your page.
 3. Add the `script` tag to your page after Leaflet script.
 
-#### CDN
-
-You can alternatively use the free [unpkg](https://unpkg.com) CDN service:
-
-```html
-<!-- After Leaflet script -->
-<script src="https://unpkg.com/leaflet.leayergroup.conditional@1.0.0/dist/leaflet.layergroup.conditional.js"></script>
-```
-
 #### npm
 
 1. Add this package to your project:
