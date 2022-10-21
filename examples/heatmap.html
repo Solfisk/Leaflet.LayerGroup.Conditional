@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Leaflet.LayerGroup.Conditional example: Heatmap</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css"
+        integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14="
+        crossorigin=""/>
+        <style lang="css">
+            #mapid { height: 700px; }
+        </style>
+    </head>
+    <body>
+        <h1>Leaflet.LayerGroup.Conditional example: Heatmap</h1>
+        <h3>Try zooming in and out on the map</h3>
+        <div id="mapid"></div>
+
+        <script src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js"
+        integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg="
+        crossorigin=""></script>
+        <script src="../leaflet.layergroup.conditional.js"></script>
+        <script src="https://leaflet.github.io/Leaflet.heat/dist/leaflet-heat.js"></script>
+
+        <script lang="javascript">
+            // Set up the base map
+
+            const base = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                            maxZoom: 18,
+                            id: 'mapbox/streets-v11',
+                            tileSize: 512,
+                            zoomOffset: -1,
+                            accessToken: 'pk.eyJ1IjoiZWxoYWFyZCIsImEiOiJja242a2U1YjMwZjByMnVzNjJubjJicjM4In0.GOcNq2uG0j94rDw3EX0uOw'
+                        });
+
+            const mymap = L.map('mapid', {
+                                           center: new L.LatLng(56.00,10.83),
+                                           zoom: 8,
+                                           layers: [base],
+            });
+
+            // Create a heatmap layer and a marker layer.
+            const heatLayer = new L.heatLayer([], {radius: 15,
+                                                   gradient: {
+                                                       0.3: 'lime',
+                                                       0.6: 'yellow',
+                                                       0.9: 'red',
+                                                         1: 'black',
+                                                    },
+                                                    maxZoom: 11,
+                                                    max: 0.5,
+                                                    radius: 10,
+                                                   });
+
+            const geoJsonLayer = new L.GeoJSON(null, { style: { 'color': 'red',
+                                                                'weight': 5,
+                                                              },
+                                                       pointToLayer: (feature, latLang) => new L.Marker(latLang),
+                                              });
+
+            // Start loading data
+            fetch('missing_buildings_heat.json')
+            .then((response) => response.json())
+            .then((data) => heatLayer.setLatLngs(data));
+
+            fetch('missing_buildings.json')
+            .then((response) => response.json())
+            .then((data) => geoJsonLayer.addData(data));
+
+            // Make a conditional layergroup
+            const layerGroup = L.layerGroup.conditional();
+            
+            // Add a heatmap and a geojson to the group with separate conditions. Then add the group to the map.
+            layerGroup.addConditionalLayer((level) => level > 11, geoJsonLayer)
+                      .addConditionalLayer((level) => level <= 11, heatLayer)
+                      .addTo(mymap);
+
+       
+            // Update the conditional layers when the user zooms
+            const zoomHandler = function(event) {
+                const zoomLevel = mymap.getZoom();
+                layerGroup.updateConditionalLayers(zoomLevel);
+             };
+            mymap.on('zoomend', zoomHandler);
+
+
+            // Set the initial state of the conditional layers.
+            // In this case, that is easiest done by calling the zoom handler once.
+            zoomHandler();
+        </script>
+    </body>
+</html>
