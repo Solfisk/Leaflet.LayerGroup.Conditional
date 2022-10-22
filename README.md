@@ -1,21 +1,22 @@
-# Leaflet.LayerGroup.Conditional
+# Leaflet.LayerGroup.Conditional / ConditionalLayerGroup
 
 An extension of [Leaflet.LayerGroup](http://leafletjs.com/reference.html#layergroup) that allows you to add layers with conditions on when they should be shown.
 
 A typical use is to render different layers depending on zoom level - e.g. showing a heatmap on low zoom levels and marker on higher zoom levels.
 
 ## Requirements
-Should work with Leaflet ^1.0.0.
+Should work with Leaflet ^1.0.0.'and 2.0
 
-Has been tested with Leaflet 1.7.1 and 1.9.2
+Has been tested with Leaflet 1.7.1, 1.9.2, 1.94 and 2.0.0+-alpha.1
 
 ## Demos
-* [Different layers depending on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/zoom.html)
-* [Heatmap or markers based on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/heatmap.html)
+* [Different layers depending on zoom level  (Leaflet v.1)](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/zoom.html)
+* [Different layers depending on zoom level  (Leaflet v.2)](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/zoom2.html)
+* [Heatmap or GeoJSON based on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/heatmap.html)
 
 ## Usage
 
-### Quick guide
+### Leaflet v.1
 
 #### HTML
 ```html
@@ -52,12 +53,67 @@ Has been tested with Leaflet 1.7.1 and 1.9.2
     layerGroup.updateConditionalLayers(map.getZoom());
 
 ```
+### Leaflet v.2
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>ConditionalLayerGroup</title>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@2.0.0-alpha.1/dist/leaflet.css"
+        crossorigin=""/>
+        <script type="importmap">
+          {
+            "imports": {
+              "leaflet": "https://unpkg.com/leaflet@2.0.0-alpha.1/dist/leaflet.js",
+              "conditionalLayerGroup": "https://unpkg.com/leaflet-layergroup-conditional@2.0.0/dist/ConditionalLayerGroup.js"
+
+          }
+        }
+        </script> 
+    </head>
+    <body>
+        <div id="mapid"></div>
+
+        <script type="module" lang="javascript">
+            import { LeafletMap, TileLayer, LayerGroup, Circle, Marker, Polygon } from "leaflet";
+            import ConditionalLayerGroup from "conditionalLayerGroup";
+
+            // Create map
+            const map = new LeafletMap('mapid');
+
+            // Create a few layers. Could also be LayerGroups. Do not add to map.
+            const layer1 = new Circle([55.6867243, 12.5700724], {color: "blue"});
+            const layer2 = Marker([55.6867243, 12.5700724]);
+
+            // Create conditional layergroup.
+            // Add layers to it with separate conditions.
+            // Add the layer group to the map.
+            const layerGroup = new ConditionalLayerGroup()
+                      .addConditionalLayer((level) => level < 12, layer1)
+                      .addConditionalLayer((level) => level >= 12, layer2)
+                      .addTo(map);
+    
+            // Set up a zoom handler to update conditional layers when the user zooms.
+            const zoomHandler = function(event) {
+                var zoomLevel = map.getZoom();
+                layerGroup.updateConditionalLayers(zoomLevel);
+            }
+
+            map.on('zoomend', zoomHandler);
+
+           // Set initial state of conditional layers
+          layerGroup.updateConditionalLayers(map.getZoom());
+        </script>
+    </body>
+</html>
+```
 
 ### Installing the sub-plugin
 
 #### Local copy
 
-1. Download the [`leaflet.layergroup.conditional.js`](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/leaflet.layergroup.conditional.js) file from the latest release.
+1. Download the [`leaflet.layergroup.conditional.js`](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/leaflet.layergroup.conditional.js) (for Leaflet v.1) or [`ConditionalLayerGroup.js`](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/ConditionalLayerGroup.js) (for Leaflet v.2) file from the latest release.
 2. Place the file alongside your page.
 3. Add the `script` tag to your page after Leaflet script.
 
@@ -69,19 +125,13 @@ Has been tested with Leaflet 1.7.1 and 1.9.2
    npm install leaflet-layergroup-conditional --save
    ```
 
-2. Add `script` tag to your page after Leaflet script:
-   ```html
-   <!-- After Leaflet script -->
-   <script src="node_modules/leaflet-layergroup-conditional/leaflet.layergroup.conditional.js"></script>
-   ```
-
 ## API Reference
 
 ### Creation
 
 | Factory                                                                           | Description                                                                                              |
 | :-------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------- |
-| **L.layerGroup.conditional**(<Layer[]> layers?, <Object> options?)                | Create a conditional layer group, optionally given an initial set of fixed layers and an options object. |
+| **L.layerGroup.conditional**(<Layer[]> layers?, <Object> options?)<br/>**new ConditionalLayerGroup(Layer[] layers?, <Object> options?)**         | Create a conditional layer group, optionally given an initial set of fixed layers and an options object. |
 
 ### Methods
 Methods are the same as those of [LayerGroup](http://leafletjs.com/reference.html#layergroup), plus

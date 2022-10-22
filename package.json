@@ -1,6 +1,6 @@
 {
     "name": "leaflet-layergroup-conditional",
-    "version": "1.0.1",
+    "version": "2.0.0",
     "description": "An extension af Leaflet.LayerGroup with conditional layers.",
     "keywords": ["leaflet", "layergroup", "conditional"],
     "repository": "github:Solfisk/Leaflet.LayerGroup.Conditional",
