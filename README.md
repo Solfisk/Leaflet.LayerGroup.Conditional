@@ -7,11 +7,11 @@ A typical use is to render different layers depending on zoom level - e.g. showi
 ## Requirements
 Should work with Leaflet ^1.0.0.
 
-Has only been tested with Leaflet ^1.7.1
+Has been tested with Leaflet 1.7.1 and 1.9.2
 
 ## Demos
 * [Different layers depending on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/zoom.html)
-
+* [Heatmap or markers based on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/heatmap.html)
 
 ## Usage
 

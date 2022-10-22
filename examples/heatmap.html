@@ -62,7 +62,7 @@
             .then((response) => response.json())
             .then((data) => heatLayer.setLatLngs(data));
 
-            fetch('missing_buildings.json')
+            fetch('missing_buildings.geojson')
             .then((response) => response.json())
             .then((data) => geoJsonLayer.addData(data));
 
