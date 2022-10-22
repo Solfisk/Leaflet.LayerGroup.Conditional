@@ -11,7 +11,7 @@ Has been tested with Leaflet 1.7.1 and 1.9.2
 
 ## Demos
 * [Different layers depending on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/zoom.html)
-* [Heatmap or markers based on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/heatmap.html)
+* [Heatmap or GeoJSON based on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/heatmap.html)
 
 ## Usage
 
