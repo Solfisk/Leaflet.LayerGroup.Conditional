@@ -10,12 +10,8 @@ Should work with Leaflet ^1.0.0.'and 2.0
 Has been tested with Leaflet 1.7.1, 1.9.2, 1.94 and 2.0.0+-alpha.1
 
 ## Demos
-<<<<<<< HEAD
 * [Different layers depending on zoom level  (Leaflet v.1)](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/zoom.html)
 * [Different layers depending on zoom level  (Leaflet v.2)](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/zoom2.html)
-=======
-* [Different layers depending on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/zoom.html)
->>>>>>> 6856e065e74e0278527101124d47d6b32d4bdc1e
 * [Heatmap or GeoJSON based on zoom level](https://solfisk.github.io/Leaflet.LayerGroup.Conditional/examples/heatmap.html)
 
 ## Usage
